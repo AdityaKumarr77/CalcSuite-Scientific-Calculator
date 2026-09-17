@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-100 dark:bg-[#0f1117] text-slate-900 dark:text-slate-100 transition-colors duration-300;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { @apply bg-slate-300 dark:bg-slate-700 rounded-full; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.card {
+  @apply bg-white dark:bg-[#171a23] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-panel dark:shadow-panel-dark;
+}
+
+.key-btn {
+  @apply select-none rounded-xl font-semibold text-[15px] py-3.5 px-2 shadow-sm transition
+         bg-slate-100 dark:bg-[#1e2230] text-slate-800 dark:text-slate-100
+         hover:bg-slate-200 dark:hover:bg-[#272c3d] active:scale-95;
+}
+
+.key-op {
+  @apply key-btn bg-accent dark:bg-accent-dark text-white hover:brightness-110;
+}
+
+.key-func {
+  @apply key-btn text-[13px] bg-indigo-50 dark:bg-[#232840] text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-[#2c3252];
+}
+
+.key-danger {
+  @apply key-btn bg-rose-50 dark:bg-[#3a1f24] text-rose-600 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-[#46272d];
+}
+
+.input-field {
+  @apply w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-[#12141b]
+         px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-accent/60 transition;
+}
