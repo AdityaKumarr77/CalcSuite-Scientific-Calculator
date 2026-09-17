@@ -14,10 +14,7 @@ A scalable, multi-tool calculator web application built with **React + Vite + Ta
 - Full keyboard support
 
 ### 💱 Currency Converter
-- Live exchange rates for 160+ currencies (via [open.er-api.com](https://www.exchangerate-api.com), no API key required)
-- Instant swap between "from" and "to" currencies
-- Local caching (30 min) so it still works offline shortly after the last fetch
-- Quick-select popular currencies
+- Live exchange rates for 160+ currencies 
 
 ### 📐 Equation Solver
 - Solves **linear**, **quadratic**, and **cubic** equations
@@ -59,21 +56,8 @@ calc-suite/
 └── package.json
 ```
 
-## Getting Started
 
-```bash
-npm install
-npm run dev       # start local dev server (usually http://localhost:5173)
-npm run build     # production build → dist/
-npm run preview   # preview the production build locally
-```
 
-## Deploying
-The production build (`npm run build`) outputs a static `dist/` folder that can be deployed
-directly to **Vercel**, **Netlify**, **GitHub Pages**, or any static host.
+Developed and Owned By:- Aditya Kumar Jha 
 
-## Possible Extensions
-- Add a "Base Converter" (binary/octal/hex/decimal) module
-- Add graphing for arbitrary user-entered functions (not just polynomials)
-- Add PWA support (installable, offline service worker) for full offline use
-- Add unit tests (Vitest) for `calcEngine.js` and `equationSolver.js`
+@ copyright 2026 All rights reserved.
