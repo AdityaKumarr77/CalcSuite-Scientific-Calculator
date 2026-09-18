@@ -6,6 +6,10 @@ function fmt(n) {
   return Number(n.toFixed(6)).toString()
 }
 
+function cleanRealRoot(n) {
+  return Math.abs(n) < 1e-9 ? 0 : n
+}
+
 function complexToString(re, im) {
   if (Math.abs(im) < 1e-9) return fmt(re)
   const sign = im >= 0 ? '+' : '-'
@@ -13,8 +17,9 @@ function complexToString(re, im) {
 }
 
 export function solveLinear(a, b) {
-  if (a === 0) return { roots: [], note: b === 0 ? 'Infinite solutions (0 = 0)' : 'No solution (contradiction)' }
-  return { roots: [fmt(-b / a)] }
+  if (a === 0) return { roots: [], realRoots: [], note: b === 0 ? 'Infinite solutions (0 = 0)' : 'No solution (contradiction)' }
+  const root = cleanRealRoot(-b / a)
+  return { roots: [fmt(root)], realRoots: [root] }
 }
 
 export function solveQuadratic(a, b, c) {
@@ -22,13 +27,15 @@ export function solveQuadratic(a, b, c) {
   const d = b * b - 4 * a * c
   if (d > 0) {
     const sq = Math.sqrt(d)
-    return { roots: [fmt((-b + sq) / (2 * a)), fmt((-b - sq) / (2 * a))], discriminant: d }
+    const realRoots = [(-b + sq) / (2 * a), (-b - sq) / (2 * a)].map(cleanRealRoot)
+    return { roots: realRoots.map(fmt), realRoots, discriminant: d }
   } else if (d === 0) {
-    return { roots: [fmt(-b / (2 * a))], discriminant: d }
+    const root = cleanRealRoot(-b / (2 * a))
+    return { roots: [fmt(root)], realRoots: [root], discriminant: d }
   } else {
     const re = -b / (2 * a)
     const im = Math.sqrt(-d) / (2 * a)
-    return { roots: [complexToString(re, im), complexToString(re, -im)], discriminant: d }
+    return { roots: [complexToString(re, im), complexToString(re, -im)], realRoots: [], discriminant: d }
   }
 }
 
@@ -60,6 +67,7 @@ export function solveCubic(a, b, c, d) {
     const imOther = (Math.sqrt(3) / 2) * (u - v)
     return {
       roots: [fmt(realRoot), complexToString(reOther, imOther), complexToString(reOther, -imOther)],
+      realRoots: [cleanRealRoot(realRoot)],
     }
   } else {
     // three distinct real roots (casus irreducibilis) via trigonometric method
@@ -71,7 +79,8 @@ export function solveCubic(a, b, c, d) {
     }
   }
 
-  return { roots: [...new Set(roots.map((r) => fmt(r)))] }
+  const uniqueRoots = [...new Set(roots.map((r) => fmt(r)))]
+  return { roots: uniqueRoots, realRoots: roots.map(cleanRealRoot) }
 }
 
 export function solvePolynomial(coeffs) {
@@ -87,7 +96,7 @@ export function solvePolynomial(coeffs) {
     case 4:
       return { degree: 3, ...solveCubic(trimmed[0], trimmed[1], trimmed[2], trimmed[3]) }
     default:
-      return { degree: 0, roots: [], note: 'Only linear, quadratic and cubic equations are supported' }
+      return { degree: 0, roots: [], realRoots: [], note: 'Only linear, quadratic and cubic equations are supported' }
   }
 }
 

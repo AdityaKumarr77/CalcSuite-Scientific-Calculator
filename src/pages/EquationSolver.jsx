@@ -26,7 +26,7 @@ export default function EquationSolver() {
 
   const points = useMemo(() => {
     if (!solved) return []
-    const range = Math.max(10, ...solved.roots.map((r) => Math.abs(parseFloat(r)) || 0) .map(v=>v*1.6), 10)
+    const range = Math.max(4, ...solved.realRoots.map((root) => Math.abs(root) * 1.4 + 1))
     return samplePoints(solved.coeffsUsed, range)
   }, [solved])
 
@@ -92,6 +92,20 @@ export default function EquationSolver() {
                     </span>
                   ))}
                 </div>
+                {solved.realRoots.length > 0 && (
+                  <div className="mt-4">
+                    <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase">
+                      X-axis intersections ({solved.realRoots.length})
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {solved.realRoots.map((root, i) => (
+                        <span key={i} className="px-3 py-1.5 rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-300 font-mono text-sm font-semibold">
+                          ({root.toFixed(6).replace(/\.?0+$/, '')}, 0)
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>
@@ -101,14 +115,14 @@ export default function EquationSolver() {
       <div className="card p-6">
         <h3 className="font-semibold text-sm mb-3">Function graph</h3>
         {solved && points.length ? (
-          <Graph points={points} roots={solved.roots} height={320} />
+          <Graph points={points} roots={solved.realRoots} height={320} />
         ) : (
           <div className="h-[320px] rounded-xl border border-dashed border-slate-200 dark:border-slate-800 flex items-center justify-center text-sm text-slate-400">
             Solve an equation to see its graph
           </div>
         )}
         <p className="text-xs text-slate-400 mt-3">
-          Red dots mark the real roots where the curve crosses the x-axis.
+          Red dots mark every real x-axis intersection; complex roots are listed above but are not plotted.
         </p>
       </div>
     </div>
